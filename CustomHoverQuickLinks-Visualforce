@@ -1,0 +1,51 @@
+https://developer.salesforce.com/forums?id=906F0000000950YIAQ
+
+For anyone who wants to implement Hover for Custom related lists, here is the total working solution:
+ 
+<apex:page id="brokerPage"standardController="Account" extensions="Custom_Controller" > 
+
+<!--==========================================================-->
+<!-- HOVER -->
+<!--==========================================================-->
+<div class="RLPanelShadow"><div class="RLPanel" id="RLPanel" onblur="sfdcPage.relatedListPanel.hideRLDelayed(null, 100)" onfocus="sfdcPage.relatedListPanel.showRL()" onmouseout="sfdcPage.relatedListPanel.hideRLDelayed(null, 100)" onmouseover="sfdcPage.relatedListPanel.showRL()"><iframe frameborder="0" id="RLPanelFrame" name="RLPanelFrame" src="/emptyHtmlDoc.html" title="Hidden Frame - Ignore"></iframe></div></div><div class="listHoverLinks"><span class="invisibleMinHeight">|</span></div>
+<script type="text/javascript">
+try { sfdcPage.registerRelatedListPanel('RLPanel',false);} catch(e) {}
+</script>
+
+<chatter:feedwithFollowers entityId="{!account.id}" showHeader="True"/> 
+
+<!--==========================================================-->
+<!-- DETAIL -->
+<!--==========================================================-->
+
+<apex:detail subject="{!account.id}" relatedList="false" relatedListHover="true" title="true"/>
+
+<!--==========================================================-->
+<!-- RELATED LISTS -->
+<!--==========================================================-->
+<apex:relatedList id="contactList" list="Contacts" pageSize="5"/>
+<apex:relatedList id="planList" list="Plan__r" /> <!-- Plans --> 
+<apex:relatedList id="activityList" list="OpenActivities" />
+<apex:relatedList id="historyList" list="ActivityHistories" />
+<apex:relatedList id="notesList" list="NotesAndAttachments" />
+<!--==========================================================-->
+<!-- CUSTOM HOVER -->
+<!--==========================================================-->
+<apex:outputPanel rendered="true">
+<script type="text/javascript">
+
+try {
+sfdcPage.registerRelatedList('brokerPage:accTeamMemberList', '', '', false, '', '',false,false,true, '');
+sfdcPage.registerRelatedList('brokerPage:contactList', '', '', false, '', '',false,false,true, '');
+sfdcPage.registerRelatedList('brokerPage:callReportList', '', '', false, '', '',false,false,true, ''); 
+sfdcPage.registerRelatedList('brokerPage:planList', '', '', false, '', '',false,false,true, '');
+sfdcPage.registerRelatedList('brokerPage:activityList', '', '', false, '', '',false,false,true, '');
+sfdcPage.registerRelatedList('brokerPage:historyList', '', '', false, '', '',false,false,true, ''); 
+sfdcPage.registerRelatedList('brokerPage:notesList', '', '', false, '', '',false,false,true, '');
+} catch (e) {}
+ 
+</script>
+</apex:outputPanel> 
+</apex:page>
+ 
+The code part highlighted in green are the additional details necessary for implementing custom hover.  Let me know if you have any questions.
