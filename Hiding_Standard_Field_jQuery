@@ -1,0 +1,11 @@
+<!-- Replace 'Hide' with the field name you want to hide OR re-name the fields you wish to hide with the word Hide in them -->
+<script>
+        var j$ = jQuery.noConflict();
+        j$(console.log('jQuery Loaded'));
+        
+        j$(document).ready(function(){
+            j$("td .labelCol:contains('Hide')").hide();
+            j$("td .labelCol:contains('Hide')").next().hide();
+        });
+</script>
+
